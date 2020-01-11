@@ -59,7 +59,7 @@ class ClientController extends Controller {
             $getDetails = $clientModel->insertClient($request);
             $url = str_replace('/admin/manageClientActions', '', url()->current());
             $activationLink = $url;
-            //$this->registrationService->sendWelcomeMail($getDetails, $activationLink);
+            $this->registrationService->sendWelcomeMail($getDetails, $activationLink);
             flash()->success("Client added successfully");
             return redirect()->intended('/admin/manageClient');
         }

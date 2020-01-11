@@ -1,32 +1,30 @@
 <?php
 
-namespace App\Modules\Admin\Controllers;
+namespace App\Modules\Client\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use App\Admin;
-use App\Modules\Admin\Model\Client;
+use App\Client;
 
 class AuthController extends Controller {
     
     use AuthenticatesUsers;
     
-    public $redirectTo = '/admin/dashboard';
-    public $guard = 'admin';
+    public $redirectTo = '/client/myParkings';
+    public $guard = 'client';
     
     public function __construct() {
         $this->middleware('guest')->except('logout');
     }
     
     public function getLogin() {
-        
-        if (!Auth::guard('admin')->check()) {
-            return view('Admin::login');
+        if (!Auth::guard('client')->check()) {
+            return view('Client::login');
         }
         else {
-            return redirect('/admin/dashboard');
+            return redirect('/client/myParkings');
         }
     }
     
@@ -39,33 +37,7 @@ class AuthController extends Controller {
     {
         return Auth::guard($this->guard);
     }
-    
-//    public function login(Request $request)
-//    {
-//        
-//        $this->validateLogin($request);
-//
-//        // If the class is using the ThrottlesLogins trait, we can automatically throttle
-//        // the login attempts for this application. We'll key this by the username and
-//        // the IP address of the client making these requests into this application.
-//        if ($this->hasTooManyLoginAttempts($request)) {
-//            $this->fireLockoutEvent($request);
-//
-//            return $this->sendLockoutResponse($request);
-//        }
-//
-//        if ($this->attemptLogin($request)) {
-//            return $this->sendLoginResponse($request);
-//        }
-//
-//        // If the login attempt was unsuccessful we will increment the number of attempts
-//        // to login and redirect the user back to the login form. Of course, when this
-//        // user surpasses their maximum number of attempts they will get locked out.
-//        $this->incrementLoginAttempts($request);
-//
-//        return $this->sendFailedLoginResponse($request);
-//    }
-    
+       
     /**
      * Get the needed authorization credentials from the request.
      *
@@ -89,7 +61,7 @@ class AuthController extends Controller {
         $errors = [$this->username() => trans('auth.failed')];
         
         // Load user from database
-        $user = \App\Admin::where($this->username(), $request->{$this->username()})->first();
+        $user = \App\Client::where($this->username(), $request->{$this->username()})->first();
         // Check if user was successfully loaded, that the password matches
         // and active is not 1. If so, override the default error message.
         if ($user && \Hash::check($request->password, $user->password) && $user->is_active != 1) {
@@ -112,7 +84,7 @@ class AuthController extends Controller {
     public function isEmailExist(Request $request)
     {
         if (isset($request->email) && (!empty($request->email))) {
-            if (Admin::where('email', '=', $request->email)->exists()) {
+            if (Client::where('email', '=', $request->email)->exists()) {
                 echo 'true';
                 exit;
             } else {

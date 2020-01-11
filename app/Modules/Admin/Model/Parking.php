@@ -26,6 +26,7 @@ class Parking extends Model {
                 <button class='btn btn-default btn-sm btn-custome view_request pull-left' style=' display: none; data-original-title='View'
                         data-toggle='tooltip' title='' data-placement='top' data-id='\",u.id,\"'><i class='fa fa-eye'></i></button>
                         <form action='/admin/manageParkingActions' method='post' style=' display: inline-block; float: left;'>
+                        <input type='hidden' name='_token' value='".csrf_token()."'>
                             <input type='hidden' name='action' value='edit'>
                             <input type='hidden' name='subAction' value='view'>
                             <input type='hidden' name='parking_id' value='\",u.id,\"'>                        
@@ -34,6 +35,7 @@ class Parking extends Model {
                         </form>                      
 
                       <form action='/admin/manageParkingActions' method='post' style=' display: inline-block; float: left;'>
+                      <input type='hidden' name='_token' value='".csrf_token()."'>
                       <input type='hidden' name='action' value='delete'>
                       <input type='hidden' name='subAction' value='\",IF(u.status = 1, 'deActivate', 'activate'),\"'>
                       <input type='hidden' name='parking_id' value='\",u.id,\"'>
@@ -58,7 +60,7 @@ class Parking extends Model {
         $requestObj = new Parking();
         $requestObj->title = $request['title'];
         $requestObj->client_id = $request['client_id'];
-        $requestObj->created_by = Auth::id();
+        $requestObj->created_by = $request['client_id'];
         $requestObj->description = $request['description'];
         $requestObj->slots = $request['slots'];
         $requestObj->cost = $request['cost'];

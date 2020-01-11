@@ -33,11 +33,11 @@
     <body class="hold-transition skin-red fixed sidebar-mini">
         <div class="wrapper">
 
-            @include('layouts.admin.header')
+            @include('layouts.client.header')
             
             <!-- Left side column. contains the logo and sidebar -->
             <aside class="main-sidebar">
-                @include('layouts.admin.sidebar')
+                @include('layouts.client.sidebar')
             </aside>
             
             <div class="content-wrapper">
@@ -68,7 +68,7 @@
 
                 @yield('content')
             </div>
-            @include('layouts.admin.footer')
+            @include('layouts.client.footer')
             @yield('scripts')
             <script>
                 setTimeout(function() {

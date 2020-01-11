@@ -48,7 +48,7 @@
         <?php Session::forget('flash_message');?>
         <div class="login-box">
             <div class="login-logo">
-                <b>Parkiez</b> Admin Panel
+                <b>Parkiez</b> Client Panel
             </div><!-- /.login-logo -->
             @yield('content')
         </div>

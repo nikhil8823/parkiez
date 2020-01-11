@@ -3,14 +3,16 @@
 namespace App\Modules\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller {
 
     public function __construct() {
-        
     }
 
     public function getDashboard() {
+        
+        //var_dump(Auth::guard('admin')->check());die("----->");
         $activeMenuId = array('dashboard');
         return view('Admin::manageDashboard')->with(['activeMenuId' => $activeMenuId]);
     }

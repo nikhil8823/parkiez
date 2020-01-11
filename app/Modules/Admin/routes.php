@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'web'], function () {
+Route::group(array(['middleware' => 'web']), function () {
 Route::group(array('prefix' => 'admin', 'module' => 'Admin', 'namespace' => 'App\Modules\Admin\Controllers'), function() {
     
     Route::get('/','AuthController@getLogin');

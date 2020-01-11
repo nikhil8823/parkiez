@@ -36,6 +36,7 @@ Manage Clients
                     <div class="pull-right">
                         <!-- Trigger the modal with a button -->
                         <form action="/admin/manageClientActions" method="post">
+                            {{ csrf_field() }}
                             <input type="hidden" name="action" value="add">
                             <input type="hidden" name="subAction" value="view">
                             <button type="submit" class="btn bg-orange btn-flat margin"><i class="fa fa-plus"></i> Add New Clients</button>
