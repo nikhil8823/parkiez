@@ -39,7 +39,7 @@ class ParkingController extends Controller {
                 return $this->editParking($request);
                 break;
             case 'delete':
-                return $this->deleteClient($request);
+                return $this->deleteParking($request);
                 break;
             case 'view':
                 $this->viewUser($request);
@@ -91,4 +91,11 @@ class ParkingController extends Controller {
                 return redirect()->intended('/admin/manageParking');
             }        
     }
+    
+    public function deleteParking(Request $request)
+    {
+        $parkingObj = new Parking();
+        $parkingObj->deActivateParking($request);
+        return redirect()->intended('/admin/manageParking');
+    }    
 }

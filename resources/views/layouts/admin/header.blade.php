@@ -4,9 +4,11 @@
     <!-- Logo -->
     <a href="#" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>C</b></span>
+        <span class="logo-mini"><b>P</b></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Parkiez</b> Admin</span>
+        <span class="logo-lg">
+            <img src = "{{ url('/images/logo.png') }}">
+        </span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
@@ -66,7 +68,7 @@
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="/images/Admin/user2.jpg" class="img-circle" alt="User Image">
+                            <img src="{{ url('/images/user2.jpg') }}" class="img-circle" alt="User Image">
                             <p> {{$username}} </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">

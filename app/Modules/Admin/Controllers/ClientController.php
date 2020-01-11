@@ -77,12 +77,13 @@ class ClientController extends Controller {
             } else if ('update' == $subAction) {
                 $client = new Client();
                 $response = $client->updateClient($request);
-                if($response) {
-                    flash()->success("Client updated successfully");
-                }
-                else{
-                    flash()->error("Something went wrong");
-                }
+//                if($response) {
+//                    flash()->success("Client updated successfully");
+//                }
+//                else{
+//                    flash()->error("Something went wrong");
+//                }
+                flash()->success("Client updated successfully");
                 return redirect()->intended('/admin/manageClient');
             }
     }

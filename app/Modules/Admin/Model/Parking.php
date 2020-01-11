@@ -103,4 +103,15 @@ class Parking extends Model {
                     ]);
         return $updateClient;        
     }
+    
+    public function deActivateParking($request) {
+        // O means Inactive 1 means Active
+        $aprkingObj = DB::table('parkings');
+        $aprkingObj->where('id', (int) $request->get('parking_id'));
+        if ('activate' == $request->get('subAction')) {
+            $aprkingObj->update(['status' => 1]);
+        } elseif ('deActivate' == $request->get('subAction')) {
+            $aprkingObj->update(['status' => 0]);
+        }        
+    }
 }

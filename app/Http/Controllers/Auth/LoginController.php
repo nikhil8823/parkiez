@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Session;
 
 class LoginController extends Controller
 {
@@ -36,4 +38,21 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+    
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+        $request->session()->flush();
+        $request->session()->regenerate();
+        Session::put('flash_message.message','You are successfully logged out from the system.');
+        Session::put('flash_message.type','success');
+        Session::save();
+        return redirect(\URL::previous());
+    }    
 }

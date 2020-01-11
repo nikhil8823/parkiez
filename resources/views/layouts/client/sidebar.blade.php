@@ -23,6 +23,11 @@ $email = $userArr->email;
                 <span>My Parking</span>
             </a>
         </li>
+        <li>
+            <a href="/logout">
+                <i class="fa fa-sign-out" aria-hidden="true"></i> <span>Sign Out</span>
+            </a>
+        </li>
     </ul>
 </section>
 <!-- /.sidebar -->

@@ -46,6 +46,12 @@
             <div class="flash-msg-success login-flash-msg-success "></div>
         @endif
         <?php Session::forget('flash_message');?>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color:#f8f9fa;padding-bottom:25px;
+             border=none;border-radius:0;">
+            <a class="navbar-brand" href="">
+                <img src="{{ url('/images/logo.png') }}" class="img-fluid" alt="logo">
+            </a>
+        </nav>
         <div class="login-box">
             <div class="login-logo">
                 <b>Parkiez</b> Admin Panel
