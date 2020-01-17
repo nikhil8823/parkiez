@@ -9,12 +9,14 @@ $(document).ready(function () {
         $("#slot_id").val(slotId);
         if(parkingType == "free") {
             var carData = self.data('car-data');
+            var primaryKey = self.data('parking-primary-key');
             var carDetails = carData.split("-");
             $("#state_name").val(carDetails[0]).attr('readonly', true);
             $("#state_code").val(carDetails[1]).attr('readonly', true);
             $("#car_series").val(carDetails[2]).attr('readonly', true);
             $("#car_number").val(carDetails[3]).attr('readonly', true);
             $(".booking_form_submit").val("Free Slot");
+            $("#parking_primary_key").val(primaryKey);
         }
         else{
             $("#state_name").val('MH').attr('readonly', false);
@@ -45,7 +47,11 @@ $(document).ready(function () {
             },
             parking_cost: {
                 required: true,
+            },
+            mobile_number: {
+                required: true,
             }
+            
         },
         messages: {
             state_name: {
@@ -62,6 +68,9 @@ $(document).ready(function () {
             },
             parking_cost: {
                 required: 'This is required',
+            },
+            mobile_number: {
+                required: 'Please enter mobile number',
             }
         },
         submitHandler: function () {

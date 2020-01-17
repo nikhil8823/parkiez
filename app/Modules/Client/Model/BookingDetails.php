@@ -60,4 +60,36 @@ class BookingDetails extends Model {
 
         return $updateDetails;
     }
+    
+    public function updateSmsStatus($bookingData, $smsResponse, $type) {
+
+        if($type === "booking") {
+            $inSmsStatus = isset($smsResponse['status']) && ($smsResponse['status'] === true) ? 1 : 2;
+            $updateStatusArray = [
+                'in_sms_status' => $inSmsStatus,
+                'in_sms_response' => $smsResponse['response']
+            ];
+            
+            $updateDetails = DB::table('booking_details')
+            ->where('parking_id', (int) $bookingData['parking_id'])
+            ->where('slot_id', $bookingData['slot_id'])
+            ->where('status', 1)
+            ->update($updateStatusArray);
+
+            return $updateDetails;
+        }
+        else {
+            $outSmsStatus = isset($smsResponse['status']) && ($smsResponse['status'] === true) ? 1 : 2;
+            $updateStatusArray = [
+                'out_sms_status' => $outSmsStatus,
+                'out_sms_response' => $smsResponse['response']
+            ];
+            
+            $updateDetails = DB::table('booking_details')
+            ->where('id', (int) $bookingData['parking_primary_key'])
+            ->update($updateStatusArray);
+
+            return $updateDetails;
+        }
+    }
 }

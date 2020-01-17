@@ -37,8 +37,10 @@ My Parkings
         }
     }
     $bookedArray = [];
+    $bookParkingPrimaryId = [];
     foreach($bookingDetails as $booking) {
         $bookedArray[$booking->slot_id] = $booking->car_number;
+        $bookParkingPrimaryId[$booking->slot_id] = $booking->id;
     }
     ?>
     <!-- Main content -->
@@ -78,6 +80,7 @@ My Parkings
                                                      data-slot-id="<?php echo $slot_id; ?>" 
                                                      data-parking-type="free" data-parking-id="<?php echo $parkingData->id; ?>"
                                                      data-car-data="<?php echo $bookedArray[$slot_id]; ?>"
+                                                     data-parking-primary-key="<?php echo $bookParkingPrimaryId[$booking->slot_id];  ?>"
                                                      > <p><?php echo $slot_id; ?></p> </div>
 
                                             <?php } else {
@@ -122,6 +125,7 @@ My Parkings
                                 <input name='parking_id' id="parking_id" value="<?php echo $parkingData->id; ?>" type="hidden">
                                 <input name='parking_type' id="parking_type" value="" type="hidden">
                                 <input name='slot_id' id="slot_id" value="" type="hidden">
+                                <input name='parking_primary_key' id="parking_primary_key" value="" type="hidden">
                                 <tr style="width: 100%;">
                                     <td class="pad-10" style="text-align: center;vertical-align: middle;">
                                         <input name='state_name' id="state_name" type="text" value="MH" class='popup_text'>
@@ -134,6 +138,12 @@ My Parkings
                                     </td>
                                     <td class="pad-10">
                                         <input name='car_number' id="car_number" type="text" value="" placeholder="2142" class='popup_text'>
+                                    </td>
+                                </tr>
+                                <tr id="mobile_number_tr">
+                                    <td class="mobile_number" colspan="4" style="text-align: center; height: 60px;">
+                                        <p style="text-align: center;display: inline;">Enter Mobile Number: </p>
+                                        <input name="mobile_number" id="mobile_number" type="text" value="" style="width:50%;height: 50px;font-size: 20px;text-align: center;">
                                     </td>
                                 </tr>
                                 <tr id="price_details" style="display:none;">

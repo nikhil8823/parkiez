@@ -8,15 +8,17 @@ use App\Services\RegistrationService;
 use Illuminate\Mail\Mailer;
 use App\Modules\Client\Model\Parking;
 use App\Modules\Client\Model\BookingDetails;
+use App\Services\SmsService;
 
 class ParkingController extends Controller {
 
-    public function __construct(RegistrationService $registrationService, Mailer $mailer) {
+    public function __construct(RegistrationService $registrationService, Mailer $mailer, SmsService $sms) {
         $this->registrationService = $registrationService;
         $this->mailer = $mailer;
+        $this->sms = $sms;
     }
 
-    public function myParkings() {
+    public function myParkings() {   
         $parkingObj = new Parking();
         $myParkingData = $parkingObj->getMyParkings();
         $activeMenuId = array('myParkings');
@@ -51,16 +53,27 @@ class ParkingController extends Controller {
         if ($request->isMethod('post')) {
             $bookingData = $request->all();
             $parkingId = $bookingData['parking_id'];
+            $parkingObj = new Parking();
+            $myParkingData = $parkingObj->isMyParking($parkingId);
+            
             if($bookingData['parking_type'] == "book") {
+                 $carNumber = $bookingData['state_name'].'-'.$bookingData['state_code'].'-'.$bookingData['car_series'].'-'.$bookingData['car_number'];
                  $bookParkingObj = new BookingDetails;
                  $bookParkingObj->parking_id = $parkingId;
                  $bookParkingObj->slot_id = $bookingData['slot_id'];
-                 $bookParkingObj->car_number = $bookingData['state_name'].'-'.$bookingData['state_code'].'-'.$bookingData['car_series'].'-'.$bookingData['car_number'];
+                 //$bookParkingObj->car_number = $bookingData['state_name'].'-'.$bookingData['state_code'].'-'.$bookingData['car_series'].'-'.$bookingData['car_number'];
+                 $bookParkingObj->car_number = $carNumber;
                  $bookParkingObj->in_time = date("Y-m-d H:i:s");
                  $bookParkingObj->status = 1;
                  $bookParkingObj->created_at = date("Y-m-d H:i:s");
                  $bookParkingObj->created_at = date("Y-m-d H:i:s");
+                 $bookParkingObj->mobile_number = $bookingData['mobile_number'];
                  if($bookParkingObj->save()) {
+                     $message= "Welcome to Parkies. You have allocated the Parking slot ".$bookingData['slot_id']." at ".$myParkingData->title." on ".date("Y-m-d H:i:s").". Your car number is ".
+                             $carNumber;
+                     $smsResponse = $this->sms->sendSms($bookingData['mobile_number'], $message);
+                     $bookParkingObj = new BookingDetails;
+                     $updateParking = $bookParkingObj->updateSmsStatus($bookingData, $smsResponse, "booking");
                      flash()->success("Parking book successfully");
                  }
                  else{
@@ -68,10 +81,15 @@ class ParkingController extends Controller {
                  }
             }
             else if($bookingData['parking_type'] == "free") {
+                $carNumber = $bookingData['state_name'].'-'.$bookingData['state_code'].'-'.$bookingData['car_series'].'-'.$bookingData['car_number'];
                 $bookParkingObj = new BookingDetails;
                 $updateParking = $bookParkingObj->freeParking($bookingData);
-                
                 if($updateParking == 1) {
+                    $message= "Your allocated parking slot ".$bookingData['slot_id']." at ".$myParkingData->title." has released on ".date("Y-m-d H:i:s").". Your car number is ".
+                             $carNumber;
+                     $smsResponse = $this->sms->sendSms($bookingData['mobile_number'], $message);
+                     $bookParkingObj = new BookingDetails;
+                     $updateParking = $bookParkingObj->updateSmsStatus($bookingData, $smsResponse, "free");
                     flash()->success("Slot is free! Thanks for payment of Rs. ". $bookingData['cost']);
                 }
                 else{
