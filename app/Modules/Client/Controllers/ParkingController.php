@@ -69,7 +69,7 @@ class ParkingController extends Controller {
                  $bookParkingObj->created_at = date("Y-m-d H:i:s");
                  $bookParkingObj->mobile_number = $bookingData['mobile_number'];
                  if($bookParkingObj->save()) {
-                     $message= "Welcome to Parkies. You have allocated the Parking slot ".$bookingData['slot_id']." at ".$myParkingData->title." on ".date("Y-m-d H:i:s").". Your car number is ".
+                     $message= "Welcome to Parkies. You have allotted the Parking slot ".$bookingData['slot_id']." at ".$myParkingData->title." on ".date("Y-m-d H:i:s").". Your car number is ".
                              $carNumber;
                      $smsResponse = $this->sms->sendSms($bookingData['mobile_number'], $message);
                      $bookParkingObj = new BookingDetails;
@@ -85,7 +85,7 @@ class ParkingController extends Controller {
                 $bookParkingObj = new BookingDetails;
                 $updateParking = $bookParkingObj->freeParking($bookingData);
                 if($updateParking == 1) {
-                    $message= "Your allocated parking slot ".$bookingData['slot_id']." at ".$myParkingData->title." has released on ".date("Y-m-d H:i:s").". Your car number is ".
+                    $message= "Your allotted parking slot ".$bookingData['slot_id']." at ".$myParkingData->title." has released on ".date("Y-m-d H:i:s").". Your car number is ".
                              $carNumber;
                      $smsResponse = $this->sms->sendSms($bookingData['mobile_number'], $message);
                      $bookParkingObj = new BookingDetails;
